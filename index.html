@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Twippera</title>
+  <link rel="stylesheet" type="text/css" href="twippera.css">
+  <script src="js/lng.js" type="text/javascript"></script>
+  <script src="js/lib.js" type="text/javascript"></script>
+  <script src="js/twippera.js" type="text/javascript"></script>
+  <script src="js/KeyBinds.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div id="popup"><div id="popupInner">
+  <div class="tl"><div class="tr"><div class="t"></div></div></div>
+  <div class="l"><div class="r"><div class="body">
+      <span id="pclose" class="pclose all_buttons"></span>
+      <p class="msg"></p>
+      <p class="command"><button class="btn all_buttons"><span><span></span></span></button></p>
+  </div></div></div>
+  <div class="bl"><div class="br"><div class="b"></div></div></div>
+</div></div>
+
+<div id="searchField">
+    <input type="text" id="query" value="hoge">
+</div>
+
+<div id="container">
+  <div id="containerInner">
+    <h1><img src="images/title.gif" width="87" height="21" alt="Twippera"></h1>
+    <div id="header">
+      <ul id="navi">
+        <li><button class="reload all_buttons" id="reload" /></li>
+        <li><button class="config all_buttons" id="pref" /></li>
+        <li><button class="close all_buttons" id="wclose" /></li>
+      </ul>
+      <!-- /header --></div>
+    <div id="front">
+      <div id="display">
+          <ul>
+              <li id="recent">Recent</li>
+              <li id="replies">Replies</li>
+              <li id="favorites">Favorites</li>
+              <li id="public">Public</li>
+          </ul>
+      </div>
+      <ul id="updateList">
+      </ul>
+      <div id="postForm">
+        <h2 id="wayd">What are you doing?</h2>
+        <p class="char"><span id="ca">Characters available</span>: <span id="count"></span></p>
+        <ul id="user_sugg">
+        </ul>
+        <p><form action="javascript:Twippera.post('update')"><input id="status" value="" autocomplete="off"><button class="post all_buttons" id="post" /></form></p>
+      </div>
+    </div>
+
+    <div id="config">
+      <div id="configInner">
+        <div id="config-1">
+            <h2 class="title" id="set">Settings</h2>
+
+            <div id="login" class="section">
+                <p><span id="un">username</span>: <input id="user"></p>
+                <p><span id="pw">password</span>: <input id="pass" type="password"></p>
+            </div>
+
+            <div id="" class="section">
+              <h3 id="ar">Auto Refresh</h3>
+              <p><span id="per">per</span> <input type="number" step="1" min="1" id="reflesh" value="1" width="5"> <span id="min">minutes</span></p>
+              <p><input type="checkbox" id="sar"> <span id="ear">Enable Auto Refresh</span></p>
+            </div>
+            <div id="" class="section">
+                <h3 id="to">Timeout</h3>
+                <p><input type="number" step="1" min="30" id="timeout" value="30" width="5"> <span id="sec">seconds</span></p>
+            </div>
+            <div class="section">
+                <h3 id="cch">Cache</h3>
+               <p><input type="number" step="1" min="20" id="cache" value="200" width="5"> <span id="msg">messages</span></p>
+            </div>
+            <div id="" class="section">
+              <h3 id="lang">Languages</h3>
+              <p><select id="locale">
+                 <option value="en">English</option>
+                 <option value="ja">日本語</option>
+                 <option value="es">Español</option>
+                 <option value="hu">Magyar</option>
+                 <option value="lt">Lietuviškai</option>
+                 <option value="ru">Ðóññêèé</option>
+                 <option value="it">Italiano</option>
+                 <option value="pt">Portuguê</option>
+                 <option value="sp_ch">简体中文</option>
+                 <option value="fr">Français</option>
+                 <option value="ge">Deutsch</option>
+              </select></p>
+            </div>
+        </div>
+
+<!--
+        <div id="config-2">
+            <div id="" class="section">
+                <h3>Filter User</h3>
+                <p><input id="filter"> (comma separated)</p>
+            </div>
+        </div>
+-->
+        <div id="" class="section">
+          <p><span class="btn"><span class="cmdBtn all_buttons"><span class="cmdBtnInner all_buttons_inner" id="save"></span></span></span></p>
+          <!--
+          <p id="save"><button class="btn all_buttons"><span><span>保存</span></span></button></p>
+          -->
+          <!-- <p><button class="save all_buttons" id="save" /></p> -->
+        </div>
+
+      <!-- /configInner --></div>
+
+      <div id="footer" class="clearFix">
+        <span class="btn"><span class="about all_buttons" id="about"><span class="btnInner" id="abt">About</span></span></span>
+      <!-- /footer --></div>
+    <!-- /config --></div>
+  <!-- /containerInner --></div>
+<!-- /container --></div>
+
+</body>
+</html>

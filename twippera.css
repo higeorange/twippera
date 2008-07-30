@@ -1,0 +1,577 @@
+@charset "UTF-8";
+
+/*********************************************************************
+ CSS Reset
+*********************************************************************/
+
+* { margin: 0; padding: 0; }
+
+/*
+body,div,
+dl,dt,dd,ul,ol,li,
+h1,h2,h3,h4,h5,h6,
+nform,fieldset,input,
+p,blockquote,pre,
+th,td { margin: 0; padding: 0; }
+*/
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+fieldset, img{ border: 0; }
+address, caption, cite, code, dfn, em, strong, th, var {
+    font-style: normal;
+    font-weight: normal;
+}
+ol, ul { list-style: none; }
+caption, th { text-align: left; }
+h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+q:before, q:after { content: ''; }
+
+/*********************************************************************
+ Default Font Setting
+*********************************************************************/
+
+/*
+ * 84.5% for !IE, keywords for IE
+ * Percents could work for IE, but for backCompat purposes, we are using keywords.
+ * x-small is for IE < 6 and IE6 quirks mode.
+ */
+body {
+    font:13px arial,helvetica,clean,sans-serif;
+}
+
+/*form系
+  firefox, safari では100%は大きすぎ。99%に。
+--------------------------------------------------------------------*/
+select, input, textarea {
+    font:99% arial,helvetica,clean,sans-serif;
+}
+
+/* 等幅フォント
+--------------------------------------------------------------------*/
+pre, code {
+/*     font:115% monospace; */
+    font:100% monospace;
+}
+
+/*Default line-height
+--------------------------------------------------------------------*/
+/* body * {line-height:1.22em;} */
+body {line-height:1;}
+
+
+/*********************************************************************
+ Global Common Style
+*********************************************************************/
+
+body {
+    color: #666;
+}
+
+a,
+a:link { color: #06f; text-decoration: underline; }
+a:visited { color: #069; text-decoration: underline; }
+a:hover,
+a:active { color: #39f; }
+
+
+/*********************************************************************
+ Float Clearing
+*********************************************************************/ 
+
+/* clearFix
+--------------------------------------------------------------------*/
+
+.clearFix:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+.clearFix {
+     display: inline-block; /* for MacIE and IE7 */
+}
+/* Holly Hack Targets IE Win only \*/
+* html .clearFix { height: 1%; }
+.clearFix { display: block; }
+/* End Holly Hack */
+
+
+/*********************************************************************
+ Basic Layout
+*********************************************************************/
+
+body {
+/*     margin: 50px 20px; */
+    background: url(images/test_bg.gif);
+ }
+
+#container {
+    width: 420px;
+    height: 387px;
+    background: url(images/bg_top.png) no-repeat left top;
+}
+
+#containerInner {
+    padding-bottom: 10px;
+    background: url(images/bg_bottom.png) no-repeat left bottom;
+}
+
+#front {
+    background: url(images/bg.png) repeat-y left top;
+}
+
+#postForm {
+    margin: 0 2px;
+    padding: 5px 10px;
+    border-top: 1px #d7ebff solid;
+    background: #a3d0ff;
+}
+
+#updateList {
+    overflow: auto;
+    height: 280px;
+    width: 416px;
+    margin: 0 2px;
+    border-top: 1px #fff solid;
+    border-bottom: 1px #47a1ff solid;
+    background: #fdfdfd;
+    -apple-dashboard-region: dashboard-region(control rectangle 0px 0px 0px 0px);
+}
+
+div#header {
+    height: 33px;
+}
+div#header:after {
+    content: ".";
+    height: 0px;
+    clear:both;
+    display    : block;
+    visibility : hidden;
+}
+
+h1 {
+    float: left;
+    width: 170px;
+    padding: 7px 0 0 10px;
+    color : #fff;
+    font-size: 120%;
+}
+
+ul#navi {
+    float: right;
+    width: 150px;
+    padding: 7px 12px 0 0;
+    text-align: right;
+}
+ul#navi li{
+    display: inline;
+    padding-left: 10px; 
+}
+
+.reload {
+    width: 23px;
+    height:23px;
+    background: url(images/reload.gif) no-repeat 0 0;
+}
+.config {
+    width:23px;
+    height:23px;
+    background: url(images/pref.gif) no-repeat 0 0;
+}
+.close {
+    width:23px;
+    height:23px;
+    background: url(images/close.gif) no-repeat 0 0;
+}
+.all_buttons {
+    border-width: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.all_buttons:hover {
+    background-position: 0 50%;
+}
+.all_buttons:active {
+    background-position: 0 100%;
+}
+
+div#display {
+    margin: 0 2px;
+    background: #dae6f5;
+    padding: 5px 10px;
+    border-bottom: 1px #c2c2c2 solid;
+    height: 13px;
+}
+div#display ul{
+}
+div#display ul li {
+    display: inline;
+    cursor: pointer;
+    padding: 2px;
+    font-weight: 700;
+}
+div#display ul li:hover {
+    text-decoration: underline;
+}
+
+div#msg {
+    margin: 0 2px;
+    padding: 5px 10px;
+    background: #f5ecc4;
+    border-bottom: 1px #c2c2c2 solid;
+    width: 400px;
+    height: 13px;
+    display: block;
+}
+div#msg span#close_msg {
+    float: right;
+    width: 80px;
+}
+
+div#front ul#updateList li {
+    padding: 5px 10px;
+    line-height: 1.33;
+    overflow: hidden;
+}
+div#front ul#updateList li:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+
+div#front ul#updateList li.zebra {
+    background: #dae6f5;
+}
+
+div#front ul#updateList li.focus {
+    border: 2px #3288E0 solid;
+}
+
+/*
+div#front ul#updateList li:nth-child(even) {
+    background: #dae6f5;
+}
+    */
+
+div#front ul#updateList li img {
+    margin-right: 4px;
+    border: 1px #ccc solid;
+    vertical-align: middle;
+    cursor: pointer;
+}
+div#front ul#updateList li span.meta {
+    float: right;
+    line-height: 16px;
+}
+
+div#front ul#updateList li span.meta span{
+    float: left;
+    display: block;
+    margin: 0 1px;
+}
+
+div#front ul#updateList li span.meta span.post_time {
+    font-size : 80%;
+    color : #3b6fa4;
+}
+div#front ul#updateList li span.meta span.fav {
+    width: 17px;
+    height: 17px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+div#front ul#updateList li span span.protected {
+    width: 16px;
+    height: 16px;
+    background: url('images/icon_red_lock.gif') top left no-repeat;
+}
+
+div#front ul#updateList li span span.trash {
+    width: 16px;
+    height: 16px;
+    background: url('images/icon_trash.gif') top left no-repeat;
+    cursor: pointer;
+}
+
+#updateList .user {
+    margin-right: 0.3em;
+    font-weight: bold;
+    cursor: pointer;
+}
+#updateList .user:hover {
+    text-decoration: underline;
+}
+
+#updateList .tome .user{
+    color: #e00000;
+}
+div#front ul#updateList li.tome span.msg{
+    font-weight: bold;
+}
+
+div#front ul#updateList li.myself span.msg{
+    font-weight: bold;
+}
+
+/*
+div#front ul#updateList li span.tome a {
+    color: inherit;
+}
+*/
+
+#postForm h2 {
+    float: left;
+    width: 180px;
+    padding-bottom : 5px;
+    font-size: 105%;
+    color: #073f77;
+}
+
+#postForm p.char {
+    float: right;
+    width: 180px;
+    text-align: right;
+    color: #073f77;
+}
+
+#postForm ul#user_sugg {
+    display: none;
+    border: 1px solid #073f77;
+    background: #fff;
+    color: #073f77;
+    position: absolute;
+    bottom: 70px;
+    left: 20px;
+    padding: 5px;
+}
+
+#postForm ul#user_sugg li {
+    margin: 3px 0;
+}
+
+#postForm ul#user_sugg li:hover {
+    background : #073f77;
+    color: #fff;
+}
+
+#status {
+    width: 326px;
+    height: 26px;
+    margin-right: 5px;
+    padding: 0 4px;
+    border: 2px #6bb8ff solid;
+    font-size: 100%;
+}
+
+.post {
+    width:53px;
+    height:30px;
+    margin-bottom: 1px;
+    background: url(images/post.png) no-repeat 0 0;
+    vertical-align: middle;
+    float: right;
+}
+
+
+/*********************************************************************
+ Configuration
+*********************************************************************/
+
+/* div#front { display: none; } */
+
+div#config {
+    display: none;
+    clear: both;
+    background: url(images/bg.png) repeat-y left top;
+}
+
+#config .section,
+#config #footer {
+    padding: 5px 10px;
+}
+
+#configInner,
+#config #footer {
+    margin: 0 2px;
+}
+
+#configInner {
+/*     border-bottom: 1px #47a1ff solid; */
+    background: #f4f4f4;
+}
+
+#config .title {
+    padding: 5px 10px;
+    background: #dae6f5;
+    border-top: 1px #e8f0f9 solid;
+    border-bottom: 1px #c2c2c2 solid;
+    color: #073f77;
+}
+
+#config .section {
+    border-top: 1px #fff solid;
+    border-bottom: 1px #c2c2c2 solid;
+}
+
+div#config p {
+    padding: 3px 10px
+}
+
+#locale {
+    width: 100px;
+    padding: 2px;
+}
+
+/*
+.save {
+    width: 79px;
+    height:24px;
+    background: url(images/save.png) no-repeat 0 0;
+}
+*/
+
+
+#configInner .btn {
+    display: block;
+}
+#configInner .btn:active {
+    position: relative;
+    top: 1px;
+    left: 1px;
+}
+
+.cmdBtn {
+    display: table-cell;
+    padding-left: 7px;
+    background: url(images/btn_head.png) no-repeat left top;
+}
+#configInner .cmdBtnInner {
+    display: block;
+    height: 24px;
+    padding-left: 8px;
+    padding-right: 15px;
+    background: url(images/btn.png) no-repeat right top;
+    line-height: 24px;
+ }
+#configInner .all_buttons_inner:hover {
+    background-position: right 50%;
+}
+#configInner .all_buttons_inner:active {
+    background-position: right 100%;
+}
+
+
+#footer .btn {
+    display: block;
+    float: right;
+}
+#footer .btn:active {
+    position: relative;
+    top: 1px;
+    left: 1px;
+}
+.about {
+    display: table-cell;
+    padding-left: 21px;
+    background: url(images/footer_btn_head.png) no-repeat left top;
+}
+#footer .btnInner {
+    display: block;
+    height: 24px;
+    padding-left: 6px;
+    padding-right: 15px;
+    background: url(images/footer_btn.png) no-repeat right top;
+    color: #666;
+    font-weight: bold;
+    line-height: 24px;
+}
+
+
+#config #footer {
+    border-top: 1px #d7ebff solid;
+    background: #a3d0ff;
+    color: #073f77;
+}
+
+
+/*********************************************************************
+ Popup Daialog
+*********************************************************************/
+#popup {
+    display: none;
+    overflow: hidden;
+    position: absolute;
+    top: 100px;
+    width: 100%;
+}
+#popupInner {
+    width: 300px;
+    margin: 0 auto;
+}
+
+
+#popup .t  { background: url(images/popup_t.png) repeat-x left  top;   height: 9px; }
+#popup .b  { background: url(images/popup_b.png) repeat-x right bottom; height: 9px;}
+#popup .l  { background: url(images/popup_l.png) repeat-y left  top;    padding-left: 9px;}
+#popup .r  { background: url(images/popup_r.png) repeat-y right bottom; padding-right: 9px;}
+
+#popup .tl { background: url(images/popup_tl.png) no-repeat left  top;   padding-left: 9px; }
+#popup .tr { background: url(images/popup_tr.png) no-repeat right top;    padding-right: 9px;}
+#popup .bl { background: url(images/popup_bl.png) no-repeat left  bottom; padding-left: 9px;}
+#popup .br { background: url(images/popup_br.png) no-repeat right bottom; padding-right: 9px; }
+
+#popup .body { padding: 10px; background: #f5ecc4; }
+
+#popup .msg { padding: 0 8px 8px 8px; }
+
+#popup .command { text-align: center; }
+
+#popup .btn span {
+    display: block;
+    background: url(images/btn_head.png) no-repeat left top;
+ }
+#popup .btn span span {
+    display: block;
+    height: 24px;
+    margin-left: 7px;
+    padding-left: 8px;
+    padding-right: 15px;
+    background: url(images/btn.png) no-repeat right top;
+    line-height: 24px;
+ }
+
+.pclose {
+    cursor: pointer;
+    position: relative;
+    top: -8px;
+    left: 8px;
+    background: url('images/close_small.png') no-repeat left top;
+    width: 15px;
+    height: 15px;
+    float: right;
+}
+
+/***** search *****/
+#searchField {
+    position: absolute;
+    right: 16px;
+    bottom: 106px;
+    padding: 2px;
+    background: #ccc;
+    border: #dae6f5 solid 1px;
+    display: none;
+    opacity: 0.7;
+}
+
+#searchField #query {
+    width: 100px;
+    border-width: 0px;
+    padding: 1px 3px;
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget>
+    <widgetname>Twippera</widgetname>
+    <description>
+        Opera Widgets for Twitter
+    </description>
+    <width>420</width>
+    <height>440</height>
+    <author>
+        <name>higeorange</name>
+        <link>http://opera.higeorange.com/</link>
+    </author>
+</widget>

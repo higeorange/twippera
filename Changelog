@@ -1,0 +1,110 @@
+20080318-1 (version 2.0)
+	- Add favorites message
+	- Add replies message
+	- Add message limit setting
+	- Use "GET" method for get "friend_timeline"
+	- Add French locale
+	- Add German locale
+	- Fix URL handling
+
+20071027-1 (version 1.4)
+	- Add Simplified Chinese locale
+
+20071026-1
+	- 9.50 beta support 
+	- Add a sign for a protected message
+	- Change style of your message
+
+20071013-1
+	- Bug fix, Sorry previous version didn't work.
+
+20071010-1
+	- Add Portuguese locale
+
+20070930-1:
+	- Add KeyBinds.js (http://d.hatena.ne.jp/higeorange/20070928/1190920892)
+	- Fix keyboard shortcut bugs
+	- Add keyboard shortcut
+		Ctrl + m: Fold/Unfold Message List
+	- Fix Italian locale
+
+20070925-1:
+	- Add keyboard shortcut
+		Ctrl + r: Reload
+		Ctrl + f: Change Settings <-> Front
+	- Add Italian locale
+
+20070922-1:
+	- Add Lithuanian locale 
+	- Add Russian locale
+	- Rewrite JavaScript
+	- Bug fix
+
+20070903-1:
+	- Add Hungarian locale
+	- Add Favorites feature
+	- Add link @username link
+	- Add Changelog file
+
+20070901-1
+	- Bug fix (undefined popup)
+
+20070831-1
+	- Add link to each stauses
+
+20070719-1
+	- Bug fix
+
+20070714-2
+	- On input field, your posted message history is shown with "Up" and
+	"Down" Key
+
+20070701-1
+	- Display post time
+	- Bug fix
+
+20070511-1
+	- Add Spanish locale. Thanks Eduardo Escárez.
+
+20070505-1
+	- Add timeout
+	- Bug fix
+
+20070430-1
+	- Posting message, the message will be displayed immediately
+
+20070428-1
+	- Add update check feature
+	- Bug fix
+
+20070424-1
+	- Optimize cache
+
+20070423-3
+	- Add cache feature
+
+20070421-1
+	- Redesign
+
+20070419-1
+	- Bug fix
+
+20070418-2
+	- Add Japanese Locale
+
+20070418-1
+	- Redesign icons
+
+20070417-3
+	- Rewrite JavaScript
+	- Change loading behaviour
+
+20070415-1
+	- Change a tinyurl to real url
+
+20070414-3
+	- Redesign, thx tobetchi
+
+20070413-1
+	- Now your can send "&" and "+"
+	- There is no more " ." (space and dot) at end of message
