@@ -1,7 +1,7 @@
 // twippera.js
 
 var Twippera = {
-    version  : '20080709-1',
+    version  : '20080731-1',
     release  : 32,
     TID      : null,
     parse    : true,
