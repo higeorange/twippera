@@ -136,7 +136,6 @@ var Twippera = {
         }).load();
     };
     Twippera.showPostHistory = function(to) {
-        log("hoge");
         var status = $('status')
         if(to == 'back') {
             if(this.PMindx == 0) {
@@ -554,7 +553,6 @@ var Twippera = {
         // [{"id":,"created_at":,"text":,"user":{"name":,"profile_image_url":,"description":,"location":,"url":,"id":,"protected":,"screen_name":}},.....]
         var cl = null;
         var len = json.length;
-        log(len);
         var tmp = [];
 
         for(var i = 0; i < len; i++) {
@@ -771,13 +769,13 @@ var Twippera = {
         elm.style.backgroundImage = "url('images/icon_throbber.gif')";
 
         if(this.isFavorite(id)) {
-            url = 'http://twitter.com/favourings/destroy/' + id;
+            url = 'http://twitter.com/favorites/destroy/' + id;
             c = true;
         } else {
-            url = 'http://twitter.com/favourings/create/' + id;
+            url = 'http://twitter.com/favorites/create/' + id;
         }
         Ajax.request(
-            url,
+            url + ".json",
             function(xhr) {
                 if(c) {
                     self.favorites = self.favorites.del(id);
@@ -788,7 +786,8 @@ var Twippera = {
                 }
             }, {
                 user: config.user,
-                pass: config.pass
+                pass: config.pass,
+                type: "POST"
             }
         );
     };
