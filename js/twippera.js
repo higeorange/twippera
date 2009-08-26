@@ -1,8 +1,8 @@
 // twippera.js
 
 var Twippera = {
-    version  : '20080731-1',
-    release  : 33,
+    version  : '20090420-4',
+    release  : 34,
     TID      : null,
     parse    : true,
     postMsgs : [],
@@ -48,12 +48,12 @@ var Twippera = {
             self.post('update');
         }, false);
 
-        //Config 
         $('save').addEventListener('click', function() {
             self.config.init();
         }, false);
 
         $('about').addEventListener('click', function() {
+			log(SPLangs.download[locale]);
             self.showPopup(
                 SPLangs.about[locale],
                 [
@@ -86,7 +86,8 @@ var Twippera = {
                 '&nbsp;Português: Eduardo Medeiros Schut',
                 '&nbsp;简体中文: Jimmy Lvo',
                 '&nbsp;Français: Yoann007',
-                '&nbsp;Deutsch: Andrew Kupfer' 
+                '&nbsp;Deutsch: Andrew Kupfer',
+				'&nbsp; Ймення на рідній мові: Victoria Herukh'
             );
         }, false);
 
@@ -100,10 +101,6 @@ var Twippera = {
 
         $('favorites').addEventListener('click', function() {
             self.display('favorites');
-        }, false);
-
-        $('public').addEventListener('click', function() {
-            self.display('public');
         }, false);
 
         $('pclose').addEventListener('click', function() {
@@ -120,6 +117,13 @@ var Twippera = {
             var status = $('status').value
             var rest   = 140 - status.length;
             $('count').innerHTML = (rest >= 0) ? rest : 0;
+        }, false);
+
+        $('query').addEventListener('keyup', function(evt) {
+            var query = $('query').value;
+            self.cache.updateCond(function(c) {
+                return c["usr"].indexOf(query) > -1;
+            });
         }, false);
 
         new KeyBinds($('status'), {
@@ -200,6 +204,7 @@ var Twippera = {
         var locale = config.locale;
         var cache = self.cache;
 
+
         var status = "";
         var query = null;
         var type;
@@ -225,7 +230,7 @@ var Twippera = {
         } else {
             type = "GET"
 //            type = "POST" //POST はほんとはだめ. 新しい機能試すときだけ
-            if(this.fcount > 5) {
+            if(this.fcount > 10) {
                 self.favorite.get(false);
                 this.fcount = 0;
             } else {
@@ -238,9 +243,9 @@ var Twippera = {
             url,
             function(xhr) {
                 if(postType == 'friends_timeline') {
-                    cache.update(xhr.responseText, "cache");
+                    cache.update(xhr.responseText);
                 } else if(postType == 'update') {
-                    cache.update('[' + xhr.responseText + ']', "cache");
+                    cache.update('[' + xhr.responseText + ']');
                 }
                 if(self.msgState == "recent") {
                     cache.parse();
@@ -279,17 +284,19 @@ var Twippera = {
                 Twippera.cache.remove(id);
             }, {
                 user: config.user,
-                pass: config.pass
+                pass: config.apss
             }
         );
     }
     Twippera.display = function(to) {
         if(this.msgState == to) return;
-        $(this.msgState).className = "";
+        $(this.msgState).style.backgroundColor = "#dae6f5";
+        $(this.msgState).style.color = "#666";
         switch(to) {
             case "replies":
                 $('updateList').scrollTop = 0;
-                $('replies').className = "here"
+                $('replies').style.backgroundColor = "#328BE0";
+                $('replies').style.color = "#fff";
 
                 Twippera.parse = false;
                 Twippera.msgState = "replies";
@@ -297,7 +304,8 @@ var Twippera = {
                 break;
             case "favorites":
                 $('updateList').scrollTop = 0;
-                $('favorites').className = "here"
+                $('favorites').style.backgroundColor = "#328BE0";
+                $('favorites').style.color = "#fff";
 
                 Twippera.parse = false;
                 Twippera.msgState = "favorites";
@@ -305,112 +313,27 @@ var Twippera = {
                 break;
             case "recent":
                 $('updateList').scrollTop = 0;
-                $('recent').className = "here";
+                $('recent').style.backgroundColor = "#328BE0";
+                $('recent').style.color = "#fff";
 
                 Twippera.parse = true;
+                Twippera.msgState = "favorites";
                 Twippera.msgState = "recent";
                 Twippera.cache.parse();
                 break;
-            case "public":
-                $('updateList').scrollTop = 0;
-                $('public').className = "here";
-
-                Twippera.parse = true;
-                Twippera.msgState = "public";
-                Twippera.public.get();
             default:
                 break;
         }
     }
-    Twippera.notify = function(type, msg) {
-        var type = type || "sound";
-        switch(type) {
-            case "sound":
-                Twippera.audio.play();
-                Twippera.audio.onerror = function(e) {
-                    log(e + ": error");
-                };
-                break;
-            case "tooltip":
-                widget.showNotification(msg);
-                break;
-            default:
-                break;
-        }
-    };
 
     Twippera.config = {
-        display : 1,
         user    : "",
         pass    : "",
         locale  : "en",
-        lng     : {},
+        lng     : null,
         time    : 60000,
         limit   : 200
     };
-    Twippera.config.createSection = function(elms) {
-        var section = document.createElement('div');
-            section.className = 'section';
-        for(var i = 0, l = elms.length; i< l; i++) {
-            var type = elms[i].type
-            var bef = elms[i].bef || "";
-            var aft = elms[i].aft || "";
-            var id = elms[i].id || "";
-            var value = elms[i].value || "";
-            switch(type) {
-                case "h3":
-                    var h3 = document.createElement('h3');
-                        h3.id = id;
-                        h3.innerHTML = bef;
-                        section.appendChild(h3);
-                    break;
-                case "text":
-                    var p = document.createElement('p');
-                    var input = document.createElement('input');
-                        input.id = id;
-                        input.type = type;
-                        if(elms[i].attr) {
-                            for(var t in elems[i].attr) {
-                                input.setAttribute(t, elms[i].attr[t]);
-                            }
-                        }
-                        input.value = value;
-                        if(bef != "") {
-                            p.appendChild(document.createTextNode(bef));
-                        }
-                        p.appendChild(input);
-                        if(aft != "") {
-                            p.appendChild(document.createTextNode(aft));
-                        }
-                        section.appendChild(p);
-                    break;
-                case "number":
-                    var p = document.createElement('p');
-                    var input = document.createelement('input');
-                        input.id = id;
-                        input.type = type;
-                        for(var t in elems[i].attr) {
-                            input.setAttribute(t, elms[i].attr[t]);
-                        }
-                        input.value = value;
-                        p.appendChild(input);
-                        section.appendChild(p);
-                    break;
-                case "select":
-                    var p = document.createElement('p');
-                    var select = document.createElement('select');
-                        select.id = id;
-                    var options = elms[i].options
-                    for(var j = 0; j < select.length; j++) {
-                        var s = document.createElement('select');
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-        $('configInner').insertBefore(section, $('configInner').firstChild);
-    }
     Twippera.config.init = function() {
         var user = $('user').value;
         var pass = $('pass').value;
@@ -420,15 +343,13 @@ var Twippera = {
         Widget.setValue(user, 'user');
         Widget.setValue(pass, 'pass');
 
-
-
+        var time = parseInt($('reflesh').value) * 1000 * 60;
+        Widget.setValue(time, "time");
         if($('sar').checked) {
-            var time = parseInt($('reflesh').value) * 1000 * 60;
             Widget.setValue("true", "enableReflesh");
-            Widget.setValue(time, "time");
         } else {
             Widget.setValue("false", "enableReflesh");
-            clearTimeout(this.TID);
+            clearInterval(this.TID);
         }
 
         var timeout = parseInt($('timeout').value) * 1000;
@@ -447,26 +368,21 @@ var Twippera = {
     Twippera.config.load = function() {
         Widget.setValue('front', 'state');
         Widget.setValue('show', 'list');
-
         this.locale = Widget.getValue("locale") || "en";
         $('locale').selectedIndex = localeIndex[this.locale];
-//        var s = document.createElement('script');
-//            s.type = "text/javascript";
-//            s.src = "./js/lng/" + this.locale + ".js";
-//        document.getElementsByTagName('head')[0].appendChild(s);
         this.setLocale(this.locale);
-
         this.user = Widget.getValue('user');
         this.pass = Widget.getValue('pass');
         this.time = Widget.getValue('time');
-        this.ear  = Widget.getValue('enableReflesh');
+        this.ear  = Widget.getValue('enableReflesh', 'Boolean');
         this.timeout = Widget.getValue('timeout', 'Number');
         this.limit = Widget.getValue('limit', 'Number');
 
         $('count').innerHTML = '140';
 
         if(this.user != "" && this.pass !="") {
-            $(Twippera.msgState).className = "here";
+            $(Twippera.msgState).style.backgroundColor = "#328BE0"
+            $(Twippera.msgState).style.color = "#fff"
             $('user').value = this.user;
             $('pass').value = this.pass;
 
@@ -477,7 +393,7 @@ var Twippera = {
                 Twippera.fcount++;
             }
 
-            if(this.ear == "true") {
+            if(this.ear) {
                 $("sar").checked = true;
                 $("reflesh").value = this.time / 60000; 
                 Twippera.autoReflesh();
@@ -487,8 +403,6 @@ var Twippera = {
             }
             $('timeout').value = this.timeout / 1000;
             $('cache').value = this.limit;
-
-            document.title += ': ' + this.user;
         } else {
             Twippera.flipWidget("back");
         }
@@ -501,20 +415,8 @@ var Twippera = {
         }
     };
 
-// problem 
-    Twippera.config.setLocale_new = function(lng_data) {
-        for(var i in lng_data) {
-            Twippera.config.lng[i] = lng_data[i];
-        }
-        document.body.innerHTML = document.body.innerHTML
-            .replace(/%\{(\w+)\}%/g, function($0, $1) {
-                return Twippera.config.lng[$1];
-            });
-    }
-
     Twippera.msg = function() {
         this.list = [];
-        this.tome = [];
         this.issort = true;
         this.limit = Twippera.config.limit;
         this.template = [
@@ -546,7 +448,7 @@ var Twippera = {
             '</li>'].join('');;
     };
 
-    Twippera.msg.prototype.update = function(txt, type) {
+    Twippera.msg.prototype.update = function(txt) {
         var config = Twippera.config;
 
         var json = eval(txt);
@@ -559,9 +461,6 @@ var Twippera = {
             if(this.check(json[i].id)) {
                 if(json[i].text.indexOf('@' + config.user) >= 0) {
                     cl = 'tome';
-                    if(type == 'cache'){
-                        this.tome.push(json[i].user.screen_name);;
-                    }
                 } else if (json[i].user.screen_name == config.user) {
                     cl = 'myself';
                 } else {
@@ -662,11 +561,6 @@ var Twippera = {
             list.push(li);
         }
         $('updateList').innerHTML = list.join('');
-        if(this.tome.length > 0) {
-//            Twippera.notify("tooltip", "Reply from " + this.tome.join(', '));
-//            Twippera.notify("sound");
-            this.tome = [];
-        }
         Twippera.itemfocus = null
     };
 
@@ -791,21 +685,6 @@ var Twippera = {
             }
         );
     };
-    Twippera.public = new Twippera.msg;
-    Twippera.public.get = function() {
-        var self = this;
-        var config = Twippera.config;
-        
-        Ajax.request(
-            'http://twitter.com/statuses/public_timeline.json',
-            function(xhr) {
-                self.update(xhr.responseText);
-                self.parse();
-            },{
-            }
-        )
-    }
-
 
     Twippera.update = {
         url : 'http://opera.higeorange.com/misc/twippera/twipperaRelease.txt'
@@ -886,7 +765,6 @@ window.addEventListener('load', function() {
     ]);
 
     Twippera.config.load();
-    Twippera.audio = new Audio("http://higeorange.com/tmp/sound/henshin1.wav");
     Twippera.initEvent()
     Twippera.update.check();
 }, false);

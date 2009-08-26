@@ -229,6 +229,27 @@ var Langs = {
         "favorites" : "Favorten",
         "cch" : "Cache",
         "msg" : "messages"
+    },
+	ua : { // Ukraine
+        "wayd" : "Що ти поробляєш?",
+        "ca"   : "Характеристики доступні ",
+        "set"  : "Настройки",
+        "un"   : "нікнейм",
+        "pw"   : "Пароль",
+        "ar"   : "Автоматична перезагрузка ",
+        "per"  : "за",
+        "min"  : "хвилин",
+        "to"   : "Час вийшов",
+        "sec"  : "секунд",
+        "ear"  : "Не можлива автоматична перезагрузка",
+        "lang" : "Мови",
+        "save" : "Зберегти",
+        "abt"  : "Мови",
+        "recent"  : "Оновлений",
+        "replies"  : "Повтори",
+        "favorites" : "Закладки",
+        "cch" : "Ничка",
+        "msg" : "повідомлення"
     }
 };
 
@@ -258,7 +279,8 @@ var SPLangs = {
         pt : "Nova Versão Disponíve",
         sp_ch : "发现新版本",
         fr : "Nouvelle version disponible",
-        ge : "Neue Version verfügbar"
+        ge : "Neue Version verfügbar",
+		ua : "Нова версія доступна"
     },
     download : {
         en : "Download",
@@ -271,7 +293,8 @@ var SPLangs = {
         pt : "Baixar",
         sp_ch : "下载",
         fr : "Télécharg",
-        ge : "Download"
+        ge : "Download",
+		ua : "Загрузка"
     },
     ok : {
         en : "OK",
@@ -284,7 +307,8 @@ var SPLangs = {
         pt : "OK",
         sp_ch : "OK",
         fr : "OK",
-        ge : "OK"
+        ge : "OK",
+		ua : "Добренько"
     },
     cancel : {
         en : "Cancel",
@@ -297,7 +321,9 @@ var SPLangs = {
         pt : "Cancelar",
         sp_ch : "取消",
         fr : "Annuler",
-        ge : "Abbrechen"
+        ge : "Abbrechen",
+		ua : "Вихід"
+		
     },
     close : {
         en : 'Close',
@@ -310,33 +336,36 @@ var SPLangs = {
         pt : "Fechar",
         sp_ch : "关闭",
         fr : "Fermer",
-        ge : "Schließen"
+        ge : "Schließen",
+		ua : "Закрити"
     },
     timeout : {
         en : 'Connection timeout',
         ja : '接続がタイムアウトしました',
         es : 'Tiempo límite de conexión superado',
-	hu : "A kapcsolat túllépte az időkorlátot",
+	    hu : "A kapcsolat túllépte az időkorlátot",
         lt : "", //need
         ru : "Òàéìàóò ñîåäèíåíèÿ",
         it : "Fine tempo di connessione",
         pt : "Tempo de Conexão Esgotado",
         sp_ch : "连接超时",
         fr : "Connexion échoue",
-        ge : "Verbindungs timeout"
+        ge : "Verbindungs timeout",
+		ua : "З`єднання перервано"
     },
     about : {
         en : 'About',
         ja : 'Twippera について',
         es : 'Acerca de',
-	hu : "Névjegy",
+	    hu : "Névjegy",
         lt : "Apie",
         ru : "Î âèäæåòå",
         it : "Informazioni",
         pt : "Sobre",
         sp_ch : "关于",
         fr : "A propos",
-        ge : "Über"
+        ge : "Über",
+		ua : "Версія"
     },
     version : {
         en : 'Version',
@@ -349,7 +378,8 @@ var SPLangs = {
         pt : "Versão",
         sp_ch : "版本",
         fr : "version",
-        ge : "version"
+        ge : "version",
+		ua : "Версія"
     },
     author : {
         en : 'Author',
@@ -362,20 +392,22 @@ var SPLangs = {
         pt : "Autor",
         sp_ch : "作者",
         fr : "Auteur",
-        ge : "Autor"
+        ge : "Autor",
+		ua : "Автор"
     },
     design : {
         en : 'Design',
         ja : 'デザイン',
         es : 'Diseño',
-	hu : "Dizájn",
+	    hu : "Dizájn",
         lt : "", //need
         ru : "Äèçàéí",
         it : "Grafica",
         pt : "Visual",
         sp_ch : "设计",
         fr : "Design",
-        ge : "Design"
+        ge : "Design",
+		ua : "Дизайн"
     },
     trans : {
         en : 'Translation',
@@ -388,7 +420,8 @@ var SPLangs = {
         pt : "Tradução",
         sp_ch : "翻译",
         fr : "Traduction",
-        ge : "Übersetzung"
+        ge : "Übersetzung",
+		ua : "Переклад"
     },
     less : {
         en : 'less than a minute ago',
@@ -401,7 +434,8 @@ var SPLangs = {
         pt : "a menos de um minuto atrá",
         sp_ch : "刚刚",
         fr : "il y a monis d'une minute",
-        ge : "vor weniger als einer Minute"
+        ge : "vor weniger als einer Minute",
+		ua : "менше ніж хвилину тому"
     },
     minago : {
         en : ' minute ago',
@@ -414,7 +448,8 @@ var SPLangs = {
         pt : " minuto anterior",
         sp_ch : " 分钟前",
         fr : " minute avant",
-        ge : " minute her"
+        ge : " minute her",
+		ua : " хвилину тому"
     },
     minsago : {
         en : ' minutes ago',
@@ -427,7 +462,8 @@ var SPLangs = {
         pt : " minutos atrá",
         sp_ch : " 分钟前",
         fr : " minutes avant",
-        ge : " minuten her"
+        ge : " minuten her",
+		ua : " хвилини тому"
     },
     hrago : {
         en : ' hour ago',
@@ -440,7 +476,8 @@ var SPLangs = {
         pt : " hora anterior",
         sp_ch : " 小时前",
         fr : " heure avant",
-        ge : " stunde her"
+        ge : " stunde her",
+		ua : " годину тому"
     },
     hrsago : {
         en : ' hours ago',
@@ -453,6 +490,7 @@ var SPLangs = {
         pt : " horas atrá",
         sp_ch : " 小时前",
         fr : " heures avant",
-        ge : " stunden her"
+        ge : " stunden her",
+		ua : " годину тому"
     }
 };

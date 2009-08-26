@@ -1,3 +1,19 @@
+20090420-4 (version 2.4)
+	- Fix a additional auto reload bug.
+
+20090420-3 (version 2.3)
+	- Opera 10 complient. Thx. WebOS Goodies
+	- Fix the tiny url handling. Thx, WebOS Goodies and orzccc.
+	- Fix auto reload bug.
+	- Change the setting html a little.
+	- Add Ukraine locale
+
+20080803-1 (version 2.2)
+	- Change favorite api uri
+
+20080604-1 (version 2.1)
+	- Fix URL handling (http://widgets.opera.com/bug/422/)
+
 20080318-1 (version 2.0)
 	- Add favorites message
 	- Add replies message

@@ -106,28 +106,27 @@ var Tools = {};
             return sa + SPLangs['minsago'][locale]
         } else {
             var hours = Math.floor(sa / 60);
-            return (hours == 1) ?
-                hours + SPLangs['hrago'][locale] :
-                hours + SPLangs['hrsago'][locale];
+            return (hours == 1) ? hours + SPLangs['hrago'][locale] : hours + SPLangs['hrsago'][locale];
         }
     };
     Tools.createHTML = function(text) {
         var self = this;
         var text = text.replace(/&amp;/g, "&");
         text = text.replace(
-            /((https?|ftp)(:\/\/[-_.!~*\'a-zA-Z0-9;\/?:\@&=+\$,\%#]+))/g, // problem
+            /((https?|ftp)(:\/\/[-_.!~*\'a-zA-Z0-9;\/?:\@&=+\$,\%#]+))/g,
 //            /(https?|ftp)(:\/\/[^\s\(\)]+)/g,
             function($0){
                 // <, > が URL に含まれてしまう問題の解決。
                 var tmp = $0.split(/(&gt;|&lt;)/);
-                var url = tmp.shift();;
+                var url = tmp.shift();
                 var aft = tmp.join("");
 
                 if(url.indexOf('http://tinyurl.com/') == 0
                     || url.indexOf('http://z.la/') == 0) {
-                    url = self.resolveTinyUrl($0);
+                    url = DecodeURI(self.resolveTinyUrl($0) || url);
                 }
-                return '<a href="' + url + '">' + url +'</a>' + aft;
+                url = encodeURI(url);
+                return '<a href="' + url + '">' + decodeURIComponent(url) +'</a>' + aft;
             }
         );
         return text.replace(/^@(\w+)|\s@(\w+)/g, function($0, $1, $2) {
@@ -149,7 +148,7 @@ var Tools = {};
                 }
             }
             xhr.send(null);
-        return exURL
+        return exURL || url;
     };
 
 // 2つ以上のクラスがつく可能性がある場合
@@ -185,6 +184,8 @@ var Widget = {}
                 case 'Array':
                     return value.split(',');
                     break;
+				case 'Boolean':
+					return value == 'true' ? true : false;
                 default:
                     break;
             }

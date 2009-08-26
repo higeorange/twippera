@@ -49,6 +49,10 @@ select, input, textarea {
     font:99% arial,helvetica,clean,sans-serif;
 }
 
+label, button, select, option {
+	cursor: pointer;
+}
+
 /* 等幅フォント
 --------------------------------------------------------------------*/
 pre, code {
@@ -200,25 +204,22 @@ ul#navi li{
     background-position: 0 100%;
 }
 
-ul#display{
+div#display {
     margin: 0 2px;
     background: #dae6f5;
-    padding: 5px 10px 0;
-    border-bottom: 1px #328BE0 solid;
-    height: 17px;
+    padding: 5px 10px;
+    border-bottom: 1px #c2c2c2 solid;
+    height: 13px;
 }
-ul#display li {
+div#display ul{
+}
+div#display ul li {
     display: inline;
     cursor: pointer;
-    margin: 0;
-    padding: 2px 4px 3px;
+    padding: 2px;
     font-weight: 700;
 }
-ul#display li.here {
-    background: #328BE0;
-    color: #fff;
-}
-ul#display li:hover {
+div#display ul li:hover {
     text-decoration: underline;
 }
 

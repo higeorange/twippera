@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<widget>
+<?xml version='1.0' encoding='UTF-8'?>
+<widget network="public">
     <widgetname>Twippera</widgetname>
-    <description>
-        Opera Widgets for Twitter
-    </description>
+    <description>Opera Widget for Twitter</description>
     <width>420</width>
     <height>440</height>
     <author>
         <name>higeorange</name>
         <link>http://opera.higeorange.com/</link>
+        <organization />
+        <email>higeorange@gamil.com</email>
     </author>
 </widget>
