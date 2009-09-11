@@ -104,6 +104,9 @@ var Twippera = {
         $('favorites').addEventListener('click', function() {
             self.display('favorites');
         }, false);
+        $('dms').addEventListener('click', function() {
+            self.display('dms');
+        }, false);
 
         $('pclose').addEventListener('click', function() {
             self.hidePopup();
@@ -308,6 +311,14 @@ var Twippera = {
                 Twippera.msgState = "favorites";
                 Twippera.favorite.get(true);
                 break;
+            case "dms":
+                $('updateList').scrollTop = 0;
+                addClass($('dms'), 'focused');
+
+                Twippera.parse = false;
+                Twippera.msgState = "dms";
+                Twippera.dms.get();
+                break;
             case "recent":
                 $('updateList').scrollTop = 0;
                 addClass($('recent'), 'focused');
@@ -423,6 +434,7 @@ var Twippera = {
         this.list = [];
         this.issort = true;
         this.limit = Twippera.config.limit;
+        this.time = 0;
         this.template = [
             '<li id="#{id}" class="#{cl}">',
                 '<img src="#{img}" ',
@@ -452,7 +464,7 @@ var Twippera = {
             '</li>'].join('');;
     };
 
-    Twippera.msg.prototype.update = function(txt) {
+    Twippera.msg.prototype.update = function(txt, type) {
         var config = Twippera.config;
 
         var json = eval(txt);
@@ -463,23 +475,34 @@ var Twippera = {
 
         for(var i = 0; i < len; i++) {
             if(this.check(json[i].id)) {
-                if(json[i].text.indexOf('@' + config.user) >= 0) {
-                    cl = 'tome';
-                } else if (json[i].user.screen_name == config.user) {
-                    cl = 'myself';
+                if(type == 'dms') {
+                    tmp.push({
+                        id     : json[i].id,
+                        img    : json[i].sender.profile_background_image_url,
+                        usr    : json[i].sender.screen_name,
+                        msg    : json[i].text,
+                        time   : json[i].created_at,
+                        cached : 0
+                    });
                 } else {
-                    cl = null;
+                    if(json[i].text.indexOf('@' + config.user) >= 0) {
+                        cl = 'tome';
+                    } else if (json[i].user.screen_name == config.user) {
+                        cl = 'myself';
+                    } else {
+                        cl = null;
+                    }
+                    tmp.push({
+                        id     : json[i].id,
+                        img    : json[i].user.profile_image_url,
+                        usr    : json[i].user.screen_name,
+                        msg    : json[i].text,
+                        time   : json[i].created_at,
+                        class  : cl,
+                        prot   : json[i].user.protected,
+                        cached : 0
+                    });
                 }
-                tmp.push({
-                    id     : json[i].id,
-                    img    : json[i].user.profile_image_url,
-                    usr    : json[i].user.screen_name,
-                    msg    : json[i].text,
-                    time   : json[i].created_at,
-                    class  : cl,
-                    prot   : json[i].user.protected,
-                    cached : 0
-                });
             }
         }
 
@@ -581,7 +604,6 @@ var Twippera = {
     }
 
     Twippera.replies = new Twippera.msg; 
-    Twippera.replies.time = 0;
     Twippera.replies.get = function() {
         var n = new Date();
         if(this.time > 0 && (n - this.time) < 600000) {
@@ -616,7 +638,6 @@ var Twippera = {
 
     Twippera.favorite = new Twippera.msg; 
     Twippera.favorite.favorites = [];
-    Twippera.favorite.time = 0;
     Twippera.favorite.get = function(parse) {
         var n = new Date();
         if(this.list.length > 0 && (n - this.time) < 600000) {
@@ -689,6 +710,52 @@ var Twippera = {
             }
         );
     };
+    Twippera.dms = new Twippera.msg;
+    Twippera.dms.template = [
+        '<li id="#{id}" class="#{cl}">',
+            '<img src="#{img}" ',
+                 'alt="#{usr}" ',
+                 'style="width:16px;height:16px" ',
+                 'onclick="Twippera.replies.reply(\'#{usr}\')">',
+            '<span class="user" ',
+                  'onclick="widget.openURL(\'http://twitter.com/#{usr}\')">#{usr}',
+            '</span>',
+            ': ',
+            '<span class="msg">',
+                '#{msg}',
+            '</span>',
+            '<span class="meta">',
+                '<span class="post_time">',
+                    '#{time}',
+                '</span>',
+            '</span>',
+        '</li>'].join('');;
+    Twippera.dms.get = function() {
+        var n = new Date();
+        if(this.time > 0 && (n - this.time) < 600000) {
+            this.parse();
+            return;
+        }
+        this.time = n;
+
+        var self = this;
+        var config = Twippera.config;
+
+        Ajax.request(
+            "http://twitter.com/direct_messages.json",
+            function(xhr) {
+            log(xhr.responseText)
+                self.update(xhr.responseText, 'dms');
+                self.parse();
+            }, {
+                user: config.user,
+                pass: config.pass,
+                errorHandler: function(url, st, txt) {
+                    self.time = 0;
+                    log(url, st, txt);
+                }
+            });
+    }
 
     Twippera.update = {
         url : 'http://opera.higeorange.com/misc/twippera/twipperaRelease.txt'
