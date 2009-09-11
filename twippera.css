@@ -181,6 +181,9 @@ ul#navi li{
     height:23px;
     background: url(images/reload.gif) no-repeat 0 0;
 }
+.reload.loading {
+    background: url("images/loading.gif") no-repeat 0 0;
+}
 .config {
     width:23px;
     height:23px;

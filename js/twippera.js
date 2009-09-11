@@ -210,7 +210,7 @@ var Twippera = {
         var status = "";
         var query = null;
         var type;
-        $('reload').style.backgroundImage = 'url("images/loading.gif")';
+        addClass($('reload'), 'loading');
 
         if(postType == 'update') {
             type = "POST"
@@ -248,7 +248,7 @@ var Twippera = {
                 if(self.msgState == "recent") {
                     cache.parse();
                 }
-                $('reload').style.backgroundImage = 'url("images/reload.gif")';
+                removeClass($('reload'), 'loading');
                 status = $('status').value;
                 var rest   = 140 - status.length;
                 $('count').innerHTML = (rest >= 0) ? rest : 0;
@@ -260,12 +260,12 @@ var Twippera = {
                 timeout: config.timeout,
                 timeoutHandler: function(url) {
                     self.showPopup(config.langs.timeout);
-                    $('reload').style.backgroundImage = 'url("images/reload.gif")';
+                    removeClass($('reload'), 'loading');
                     log(url, "Timeout");
                 },
                 errorHandler: function(url, st, txt) {
                     log(url + ": " + st + ": " + txt);
-                    $('reload').style.backgroundImage = 'url("images/reload.gif")';
+                    removeClass($('reload'), 'loading');
                 }
             }
         );
