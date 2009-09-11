@@ -132,7 +132,9 @@ var Tools = {};
         );
         return text.replace(/\B@([_a-z0-9]+)/ig, function(reply) {
 			return reply.charAt(0) + '<a href="http://twitter.com/' + reply.substring(1) + '">' + reply.substring(1) + '</a>';
-		});
+		}).replace(/\B#([_a-z0-9+]+)/ig, function(search) {
+			return '<a href="http://twitter.com/#search?q=%23' + search.substring(1) + '">' + search.charAt(0) + search.substring(1) + '</a>';
+        });
     };
     // Tinyurl 展開: 1つに付き about 600ms
     Tools.resolveTinyUrl = function(url) {
