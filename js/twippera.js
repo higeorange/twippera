@@ -262,7 +262,7 @@ var Twippera = {
                 pass: config.pass,
                 timeout: config.timeout,
                 timeoutHandler: function(url) {
-                    self.showPopup(config.langs.timeout);
+                    self.showPopup(config.langs.to);
                     removeClass($('reload'), 'loading');
                     log(url, "Timeout");
                 },
