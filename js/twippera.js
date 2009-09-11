@@ -289,13 +289,12 @@ var Twippera = {
     }
     Twippera.display = function(to) {
         if(this.msgState == to) return;
-        $(this.msgState).style.backgroundColor = "#dae6f5";
-        $(this.msgState).style.color = "#666";
+        if (this.msgState) 
+        removeClass($(this.msgState), "focused")
         switch(to) {
             case "replies":
                 $('updateList').scrollTop = 0;
-                $('replies').style.backgroundColor = "#328BE0";
-                $('replies').style.color = "#fff";
+                addClass($('replies'), 'focused')
 
                 Twippera.parse = false;
                 Twippera.msgState = "replies";
@@ -303,8 +302,7 @@ var Twippera = {
                 break;
             case "favorites":
                 $('updateList').scrollTop = 0;
-                $('favorites').style.backgroundColor = "#328BE0";
-                $('favorites').style.color = "#fff";
+                addClass($('favorites'), 'focused');
 
                 Twippera.parse = false;
                 Twippera.msgState = "favorites";
@@ -312,8 +310,7 @@ var Twippera = {
                 break;
             case "recent":
                 $('updateList').scrollTop = 0;
-                $('recent').style.backgroundColor = "#328BE0";
-                $('recent').style.color = "#fff";
+                addClass($('recent'), 'focused');
 
                 Twippera.parse = true;
                 Twippera.msgState = "favorites";
@@ -381,8 +378,7 @@ var Twippera = {
         $('count').innerHTML = '140';
 
         if(this.user != "" && this.pass !="") {
-            $(Twippera.msgState).style.backgroundColor = "#328BE0"
-            $(Twippera.msgState).style.color = "#fff"
+            addClass($(Twippera.msgState), 'focused');
             $('user').value = this.user;
             $('pass').value = this.pass;
 

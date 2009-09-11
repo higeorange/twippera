@@ -222,6 +222,10 @@ div#display ul li {
 div#display ul li:hover {
     text-decoration: underline;
 }
+div#display ul li.focused {
+    background-color: #328BE0;
+    color: #fff;
+}
 
 div#msg {
     margin: 0 2px;
@@ -580,3 +584,5 @@ div#config p {
     border-width: 0px;
     padding: 1px 3px;
 }
+
+

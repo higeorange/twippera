@@ -39,7 +39,6 @@ var Ajax = {};
             header: options.header || {}
         }
         if(opts.user && opts.pass) {
-            log(opts.type)
             xhr.open(opts.type, url, opts.async, opts.user, opts.pass);
         } else {
             xhr.open(opts.type, url, opts.async);
@@ -230,7 +229,7 @@ function addClass(elm, class) {
 }
 
 function removeClass(elm, class) {
-    elm.calssName.replace(new RegExp(class), "");
+    elm.className = elm.className.replace(new RegExp(class), "");
 }
 
 function setCaretPosition(ctrl, pos) {
