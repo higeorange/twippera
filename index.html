@@ -31,9 +31,9 @@
     <h1><img src="images/title.gif" width="87" height="21" alt="Twippera"></h1>
     <div id="header">
       <ul id="navi">
-        <li><button class="reload all_buttons" id="reload" ><button></li>
-	<li><button class="config all_buttons" id="pref" ></button></li>
-	<li><button class="close all_buttons" id="wclose" ></button></li>
+        <li><button class="reload all_buttons" id="reload" ></button></li>
+		<li><button class="config all_buttons" id="pref" ></button></li>
+		<li><button class="close all_buttons" id="wclose" ></button></li>
       </ul>
       <!-- /header --></div>
     <div id="front">
@@ -49,9 +49,7 @@
       <div id="postForm">
         <h2 id="wayd">What are you doing?</h2>
         <p class="char"><span id="ca">Characters available</span>: <span id="count"></span></p>
-        <ul id="user_sugg">
-        </ul>
-	<p><form action="javascript:Twippera.post('update')"><input id="status" value="" autocomplete="off"><button class="post all_buttons" id="post" ></button></form></p>
+	<form action="javascript:Twippera.post('update')"><div><input id="status" value="" autocomplete="off"><button class="post all_buttons" id="post" ></button></div></form>
       </div>
     </div>
 
@@ -59,13 +57,14 @@
       <div id="configInner">
 
         <h2 class="title" id="set">Settings</h2>
-
+		
+		<form action="javascript:Twippera.config.init();">
         <div id="login" class="section">
             <p><label for="user"><span id="un">username</span></label>: <input id="user"></p>
             <p><label for="pass"><span id="pw">password</span></label>: <input id="pass" type="password"></p>
         </div>
 
-        <div id="" class="section">
+        <div class="section">
           <h3 id="ar">Auto Refresh</h3>
           <p><span id="per">per</span> <input type="number" step="1" min="1" id="reflesh" value="1" width="5"> <span id="min">minutes</span></p>
           <p><label for="sar"><input type="checkbox" id="sar"> <span id="ear">Enable Auto Refresh</span></label></p>
@@ -76,7 +75,7 @@
             <p><input id="filter"> (comma separated)</p>
         </div>
         -->
-        <div id="" class="section">
+        <div id="timl" class="section">
             <h3 id="to">Timeout</h3>
             <p><input type="number" step="1" min="30" id="timeout" value="30" width="5"> <span id="sec">seconds</span></p>
         </div>
@@ -84,7 +83,7 @@
             <h3 id="cch">Cache</h3>
             <p><input type="number" step="1" min="20" id="cache" value="200" width="5"> <span id="msg">messages</span></p>
         </div>
-        <div id="" class="section">
+        <div class="section">
           <h3 id="lang">Languages</h3>
           <p><select id="locale">
              <option value="en">English</option>
@@ -92,23 +91,27 @@
              <option value="es">Español</option>
              <option value="hu">Magyar</option>
              <option value="lt">Lietuviškai</option>
-             <option value="ru">Ðóññêèé</option>
+             <option value="ru">Русский</option>
              <option value="it">Italiano</option>
              <option value="pt">Portuguê</option>
              <option value="sp_ch">简体中文</option>
              <option value="fr">Français</option>
              <option value="ge">Deutsch</option>
-			 <option value="ua">Ймення на рідній мові</option>
+			<option value="ua">Ймення на рідній мові</option>
+			<option value="lv">Latviešu</option>
+		  	<option value="no">bokmål</option>
+		  	<option value="pt_br">Português BR</option>
           </select></p>
         </div>
 
-        <div id="" class="section">
-          <p><span class="btn"><span class="cmdBtn all_buttons"><span class="cmdBtnInner all_buttons_inner" id="save"></span></span></span></p>
+        <div class="section">
+          <p><span class="btn"><span class="cmdBtn all_buttons"><button class="cmdBtnInner all_buttons_inner" id="save"></button></span></span></p>
           <!--
           <p id="save"><button class="btn all_buttons"><span><span>保存</span></span></button></p>
           -->
           <!-- <p><button class="save all_buttons" id="save" /></p> -->
         </div>
+		</form>
 
       <!-- /configInner --></div>
 

@@ -1,3 +1,14 @@
+20090609-1 (version 2.5)
+	- Added Latvian locale
+	- Added Norwegian locale
+	- Added Brazilian Portuguese locale
+	- Fixed Russian locale (Sorry, it was not Russian.)
+	- Changed a method of the translation (separate files)
+	- Fixed URL Handling (refered to http://twitter.com/javascripts/blogger.js)
+	- Fixed a invalid html
+	- Fixed the settings html
+	- Added bit.ly and ff.im url handlings.
+
 20090420-4 (version 2.4)
 	- Fix a additional auto reload bug.
 

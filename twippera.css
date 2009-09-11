@@ -463,6 +463,7 @@ div#config p {
     padding-right: 15px;
     background: url(images/btn.png) no-repeat right top;
     line-height: 24px;
+	border: 0;
  }
 #configInner .all_buttons_inner:hover {
     background-position: right 50%;

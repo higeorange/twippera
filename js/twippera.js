@@ -1,7 +1,7 @@
 // twippera.js
 
 var Twippera = {
-    version  : '20090420-4',
+    version  : '20090609-1',
     release  : 34,
     TID      : null,
     parse    : true,
@@ -53,41 +53,43 @@ var Twippera = {
         }, false);
 
         $('about').addEventListener('click', function() {
-			log(SPLangs.download[locale]);
             self.showPopup(
-                SPLangs.about[locale],
+                config.langs.abt,
                 [
                     "&nbsp;",
-                    SPLangs.version[locale],
+                    config.langs.version,
                     ": ",
                     self.version,
                     ' (<a href="http://widgets.opera.com/widget/6522">',
-                        SPLangs.download[locale],
+                        config.langs.download,
                     '</a>)'
                 ].join(""),
                 [
                     "&nbsp;",
-                    SPLangs.author[locale],
+                    config.langs.author,
                     ': <a href="http://higeorange.com/">Higeorange</a> ',
                     '(<a href="http://twitter.com/higeorange">Twitter</a>)'
                 ].join(''),
                 [
                     "&nbsp;",
-                    SPLangs.design[locale],
+                    config.langs.design,
                     ': tobetchi (<a href="http://twitter.com/tobetchi">Twitter</a>)'
                 ].join(''),
                 "",
-                SPLangs.trans[locale],
+                config.langs.trans,
                 '&nbsp;Español: Eduardo Escáre',
                 '&nbsp;Magyor: Tamás Zahol',
                 '&nbsp;Lietuviškai: Gediminas Ryženinas',
-                '&nbsp;Ðóññêèé: Andrew Us',
+                '&nbsp;Русский: Andrew Ustimov, anton, neonmailbox',
                 '&nbsp;Italiano: Alberto Raffaele Casale', 
                 '&nbsp;Português: Eduardo Medeiros Schut',
                 '&nbsp;简体中文: Jimmy Lvo',
                 '&nbsp;Français: Yoann007',
                 '&nbsp;Deutsch: Andrew Kupfer',
-				'&nbsp; Ймення на рідній мові: Victoria Herukh'
+				'&nbsp;Ймення на рідній мові: Victoria Herukh',
+				'&nbsp;Latviešu: Ivars Šaudinis',
+				'&nbsp;Norsk bokmål: Brede Kaasa',
+				'&nbsp;Português BR Carlos Gomes'
             );
         }, false);
 
@@ -214,11 +216,7 @@ var Twippera = {
             type = "POST"
             status = $('status').value;
             if(status == "") return;
-            query = 'status=' + status.replace(/(&|\+|\*|;)/g,
-                function($0, $1) {
-                    return encodeURIComponent($1);
-                }
-            ) + '&source=Twippera';
+            query = 'status=' + encodeURIComponent(status) + '&source=Twippera';
             $('status').value = "";
             if(self.postMsgs[0]) {
                 if(!self.postMsgs[0].post) {
@@ -261,7 +259,7 @@ var Twippera = {
                 pass: config.pass,
                 timeout: config.timeout,
                 timeoutHandler: function(url) {
-                    self.showPopup(SPLangs.timeout[locale]);
+                    self.showPopup(config.langs.timeout);
                     $('reload').style.backgroundImage = 'url("images/reload.gif")';
                     log(url, "Timeout");
                 },
@@ -283,8 +281,9 @@ var Twippera = {
                 $(id).parentNode.removeChild($(id));
                 Twippera.cache.remove(id);
             }, {
+                type: 'DELETE',
                 user: config.user,
-                pass: config.apss
+                pass: config.pass
             }
         );
     }
@@ -330,6 +329,7 @@ var Twippera = {
         user    : "",
         pass    : "",
         locale  : "en",
+		langs   : {},
         lng     : null,
         time    : 60000,
         limit   : 200
@@ -359,7 +359,7 @@ var Twippera = {
         Widget.setValue(limit, 'limit');
 
         var localeSel = $("locale");
-        var locale = localeSel.options[localeSel.selectedIndex].value;
+        var locale = localeSel.value;
         Widget.setValue(locale, "locale");
 
         this.load();
@@ -408,12 +408,20 @@ var Twippera = {
         }
     };
     Twippera.config.setLocale = function(lng) {
-        var lang = Langs[lng];
-        var save = $('save');
-        for(var i in lang) {
-            $(i).innerHTML = lang[i];
-        }
+		this.script= document.createElement('script');
+		this.script.type = 'text/javascript';
+		this.script.src = './js/lng/' + lng + '.js';
+		document.body.appendChild(this.script);
     };
+	Twippera.config.loadLocaleFile = function(langs) {
+	    for(var i in langs) {
+			if($(i)) {
+				$(i).innerHTML = langs[i];
+			}
+			this.langs[i] = langs[i];
+        }
+		this.script.parentNode.removeChild(this.script);
+	};
 
     Twippera.msg = function() {
         this.list = [];
@@ -691,7 +699,7 @@ var Twippera = {
     }
     Twippera.update.check = function() {
         var self = this;
-        var locale = Twippera.config.locale;
+		var config = self.config;
 
         Ajax.request(
             self.url,
@@ -701,9 +709,9 @@ var Twippera = {
                 var ver = t[1];
                 if(Twippera.release < release) {
                     Twippera.showPopup(
-                        SPLangs.update[locale] + ' : ' + ver,
+                        config.langs.update + ' : ' + ver,
                         '<a href="http://widgets.opera.com/widget/6522/">' +
-                            SPLangs.download[locale] +
+                            config.langs.download +
                         '</a>'
                     );
                 }
@@ -713,7 +721,7 @@ var Twippera = {
 
     Twippera.showPopup = function() {
         var self = this;
-        var locale = self.config.locale;
+        var config = self.config;
 
         var popup = $('popup');
             popup.style.display = 'block';
@@ -747,7 +755,7 @@ var Twippera = {
             XPathResult.FIRST_ORDERED_NODE_TYPE,
             null
         ).singleNodeValue;
-            btnInner.innerHTML = SPLangs.close[locale];
+            btnInner.innerHTML = config.langs.close;
     };
 
     Twippera.hidePopup = function() {

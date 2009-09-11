@@ -39,6 +39,7 @@ var Ajax = {};
             header: options.header || {}
         }
         if(opts.user && opts.pass) {
+            log(opts.type)
             xhr.open(opts.type, url, opts.async, opts.user, opts.pass);
         } else {
             xhr.open(opts.type, url, opts.async);
@@ -47,7 +48,7 @@ var Ajax = {};
         for(var t in opts.header) {
             xhr.setRequestHeader(t, opts.header[t]);
         }
-            xhr.send(opts.query);
+        xhr.send(opts.query);
     }
 
 var preLoadImage = function(l) {
@@ -83,6 +84,7 @@ var Tools = {};
         return postTime.getHours() + ":" + postTime.getMinutes();
     };
     Tools.createTime = function(time, locale) {
+		var langs = Twippera.config.langs;
         var t = time.split(' ');
         var Month = {
             'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
@@ -99,43 +101,36 @@ var Tools = {};
         var nowTime = new Date().getTime();
         var sa = Math.round((nowTime - postTime) / 60 / 1000);
         if(sa < 1) {
-            return SPLangs['less'][locale];
+            return langs.less;
         } else if(sa == 1) {
-            return sa + SPLangs['minago'][locale]
+            return sa + langs.minago;
         } else if(sa > 1 && sa < 60) {
-            return sa + SPLangs['minsago'][locale]
+            return sa + langs.minsago;
         } else {
             var hours = Math.floor(sa / 60);
-            return (hours == 1) ? hours + SPLangs['hrago'][locale] : hours + SPLangs['hrsago'][locale];
+            return (hours == 1) ? hours + langs.hrago : hours + langs.hrsago;
         }
     };
     Tools.createHTML = function(text) {
         var self = this;
         var text = text.replace(/&amp;/g, "&");
         text = text.replace(
-            /((https?|ftp)(:\/\/[-_.!~*\'a-zA-Z0-9;\/?:\@&=+\$,\%#]+))/g,
+//            /((https?|ftp)(:\/\/[-_.!~*\'a-zA-Z0-9;\/?:\@&=+\$,\%#]+))/g,
 //            /(https?|ftp)(:\/\/[^\s\(\)]+)/g,
-            function($0){
-                // <, > が URL に含まれてしまう問題の解決。
-                var tmp = $0.split(/(&gt;|&lt;)/);
-                var url = tmp.shift();
-                var aft = tmp.join("");
-
+            /((https?|s?ftp|ssh)\:\/\/[^"\s\<\>]*[^.,;'">\:\s\<\>\)\]\!])/g, // from http://twitter.com/javascripts/blogger.js
+            function(url){
                 if(url.indexOf('http://tinyurl.com/') == 0
-                    || url.indexOf('http://z.la/') == 0) {
-                    url = DecodeURI(self.resolveTinyUrl($0) || url);
+                    || url.indexOf('http://z.la/') == 0
+                    || url.indexOf('http://ff.im/') == 0
+                    || url.indexOf('http://bit.ly/') == 0) {
+                    url = DecodeURI(self.resolveTinyUrl(url) || url);
                 }
-                url = encodeURI(url);
-                return '<a href="' + url + '">' + decodeURIComponent(url) +'</a>' + aft;
+                return '<a href="' + url + '">' + url +'</a>';
             }
         );
-        return text.replace(/^@(\w+)|\s@(\w+)/g, function($0, $1, $2) {
-            if($1) {
-                return '@<a href="http://twitter.com/' + $1 + '">' + $1 + '</a>'
-            } else if($2) {
-                return ' @<a href="http://twitter.com/' + $2 + '">' + $2 + '</a>'
-            }
-        });
+        return text.replace(/\B@([_a-z0-9]+)/ig, function(reply) {
+			return reply.charAt(0) + '<a href="http://twitter.com/' + reply.substring(1) + '">' + reply.substring(1) + '</a>';
+		});
     };
     // Tinyurl 展開: 1つに付き about 600ms
     Tools.resolveTinyUrl = function(url) {
@@ -144,7 +139,7 @@ var Tools = {};
             xhr.open('HEAD', url, false);
             xhr.onreadystatechange = function() {
                 if(xhr.readyState == 4) {
-                    exURL = xhr.getResponseHeader('Location');
+                    exURL = escape(xhr.getResponseHeader('Location'));
                 }
             }
             xhr.send(null);
