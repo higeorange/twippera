@@ -98,16 +98,19 @@ var Tools = {};
         var S = parseInt(time[2]);
         var postTime = Date.UTC(y, m, d, H, M, S);
         var nowTime = new Date().getTime();
-        var sa = Math.round((nowTime - postTime) / 60 / 1000);
-        if(sa < 1) {
+        var diffMins = Math.round((nowTime - postTime) / 60 / 1000);
+        if(diffMins < 1) {
             return langs.less;
-        } else if(sa == 1) {
-            return sa + langs.minago;
-        } else if(sa > 1 && sa < 60) {
-            return sa + langs.minsago;
-        } else {
-            var hours = Math.floor(sa / 60);
+        } else if(diffMins == 1) {
+            return diffMins + langs.minago;
+        } else if(diffMins > 1 && diffMins < 60) {
+            return diffMins + langs.minsago;
+        } else if(diffMins >= 60 && diffMins < 60 * 24) {
+            var hours = Math.floor(diffMins / 60);
             return (hours == 1) ? hours + langs.hrago : hours + langs.hrsago;
+        } else {
+            var days = Math.floor(diffMins / 60 / 24);
+            return (days == 1) ? days + langs.dayago : days + langs.daysago;
         }
     };
     Tools.createHTML = function(text) {
