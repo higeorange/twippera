@@ -478,7 +478,7 @@ var Twippera = {
                 if(type == 'dms') {
                     tmp.push({
                         id     : json[i].id,
-                        img    : json[i].sender.profile_background_image_url,
+                        img    : json[i].sender.profile_image_url,
                         usr    : json[i].sender.screen_name,
                         msg    : json[i].text,
                         time   : json[i].created_at,
