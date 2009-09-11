@@ -221,6 +221,7 @@ div#display ul li {
     cursor: pointer;
     padding: 2px;
     font-weight: 700;
+	text-shadow: 1px 1px 0 #999;
 }
 div#display ul li:hover {
     text-decoration: underline;
