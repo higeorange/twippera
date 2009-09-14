@@ -756,6 +756,23 @@ var Twippera = {
                 }
             });
     }
+    Twippera.dms.send = function(txt, to) {
+        var config = Twipera.config;
+        var url = 'http://twitter.com/direct_messages/new.json';
+        Ajax.request(
+            url,
+            function (xhr) {
+            }, {
+                type: 'POST',
+                user: config.user,
+                pass: config.pass,
+                query: {
+                    user: to,
+                    text: text
+                }
+            }
+        );
+    }
 
     Twippera.update = {
         url : 'http://opera.higeorange.com/misc/twippera/twipperaRelease.txt'
