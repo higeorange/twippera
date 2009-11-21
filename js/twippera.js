@@ -485,6 +485,10 @@ var Twippera = {
                         'style="background-image:url(\'#{star}\')" ',
                         'onclick="Twippera.favorite.toggle(this, #{id})">',
                     '</span>',
+                    '<sapn class="retweet"',
+                        'onclick="Twippera.retweet(#{id})">',
+                        'RT',
+                    '</span>',
                 '</span>',
             '</li>'].join('');
     };

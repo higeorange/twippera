@@ -300,6 +300,10 @@ div#front ul#updateList li span.meta span.fav {
     background-repeat: no-repeat;
     cursor: pointer;
 }
+div#front ul#updateList li span.meta span.retweet {
+    color: #06f;
+    cursor: pointer;
+}
 div#front ul#updateList li span span.protected {
     width: 16px;
     height: 16px;
