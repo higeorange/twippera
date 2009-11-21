@@ -289,18 +289,20 @@ var Twippera = {
     Twippera.retweet = function(id) {
         var config = Twippera.config;
         var api_url = 'http://api.twitter.com/1/statuses/retweet/' + id + '.json';
+        Twippera.toggleReload();
 
         Ajax.request(
             api_url,
             function (xhr){
-                log('retweet')
-                log(xhr.responseText);
+                Twippera.cache.update('[' + xhr.responseText + ']');
+                Twippera.toggleReload();
             }, {
                 type: "POST",
                 user: config.user,
                 pass: config.pass,
                 errorHandler: function(url, st, txt) {
                     log(url, st, txt);
+                    Twippera.toggleReload();
                 }
             }
         );
@@ -325,6 +327,7 @@ var Twippera = {
     }
     Twippera.display = function(to) {
         if(this.msgState == to) return;
+        this.toggleReload();
         if (this.msgState) 
         removeClass($(this.msgState), "focused")
         switch(to) {
@@ -364,6 +367,7 @@ var Twippera = {
             default:
                 break;
         }
+        this.toggleReload();
     }
 
     Twippera.config = {
