@@ -229,6 +229,12 @@ Array.prototype.del = function(obj) {
     return r;
 }
 
+function hasClass(elm, _class) {
+    if(!elm || !_class) return;
+    var regexp = new RegExp('(^|\\s)' + _class + '(\\s|$)');
+     return regexp.test(elm.className);
+}
+
 function addClass(elm, class) {
     elm.className = elm.className + ' ' + class;
 }
