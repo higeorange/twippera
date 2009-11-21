@@ -175,6 +175,13 @@ var Twippera = {
                 break;
         }
     };
+    Twippera.toggleReload = function() {
+        if(hasClass($('reload'), 'loading')) {
+            removeClass($('reload'), 'loading');
+        } else {
+            addClass($('reload'), 'loading');
+        }
+    }
 
     Twippera.flipWidget = function(to) {
         switch (to) {
@@ -213,7 +220,7 @@ var Twippera = {
         var status = "";
         var query = null;
         var type;
-        addClass($('reload'), 'loading');
+        Twippera.toggleReload();
 
         if(postType == 'update') {
             type = "POST"
@@ -255,7 +262,7 @@ var Twippera = {
                 if(self.msgState == "recent") {
                     cache.parse();
                 }
-                removeClass($('reload'), 'loading');
+                Twippera.toggleReload();
                 status = $('status').value;
                 var rest   = 140 - status.length;
                 $('count').innerHTML = (rest >= 0) ? rest : 0;
@@ -267,12 +274,12 @@ var Twippera = {
                 timeout: config.timeout,
                 timeoutHandler: function(url) {
                     self.showPopup(config.langs.to);
-                    removeClass($('reload'), 'loading');
+                    Twippera.toggleReload();
                     log(url, "Timeout");
                 },
                 errorHandler: function(url, st, txt) {
                     log(url + ": " + st + ": " + txt);
-                    removeClass($('reload'), 'loading');
+                    Twippera.toggleReload();
                 }
             }
         );
