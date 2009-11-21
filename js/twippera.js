@@ -1,7 +1,7 @@
 // twippera.js
 
 var Twippera = {
-    version  : '20090609-1',
+    version  : '20091121-1',
     release  : 34,
     TID      : null,
     parse    : true,
@@ -277,6 +277,26 @@ var Twippera = {
             }
         );
     };
+    Twippera.retweet = function(id) {
+        var config = Twippera.config;
+        var api_url = 'http://api.twitter.com/1/statuses/retweet/' + id + '.json';
+
+        Ajax.request(
+            api_url,
+            function (xhr){
+                log('retweet')
+                log(xhr.responseText);
+            }, {
+                type: "POST",
+                user: config.user,
+                pass: config.pass,
+                errorHandler: function(url, st, txt) {
+                    log(url, st, txt);
+                }
+            }
+        );
+
+    }
 
     Twippera.destroy = function(id) {
         var config = Twippera.config;
