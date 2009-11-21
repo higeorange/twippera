@@ -25,7 +25,7 @@ var Twippera = {
             if(config.ear) {
                 self.autoReflesh();
             } else {
-                self.post("friends_timeline");
+                self.post("home_timeline");
             }
             if(Widget.getValue('state') == 'back') {
                 self.flipWidget('front');
@@ -203,9 +203,9 @@ var Twippera = {
     Twippera.autoReflesh = function() {
         clearInterval(this.TID);
         var self = this;
-        this.post("friends_timeline");
+        this.post("home_timeline");
         this.TID = setInterval(
-            function(){ self.post("friends_timeline") },
+            function(){ self.post("home_timeline") },
             Twippera.config.time);
     };
 
@@ -250,11 +250,13 @@ var Twippera = {
             }
         }
 
-        var url = "http://twitter.com/statuses/" + postType + ".json";
+        var url = postType == 'home_timeline' ?
+            'http://api.twitter.com/1/statuses/home_timeline.json' : 
+            "http://twitter.com/statuses/" + postType + ".json";
         Ajax.request(
             url,
             function(xhr) {
-                if(postType == 'friends_timeline') {
+                if(postType == 'home_timeline') {
                     cache.update(xhr.responseText);
                 } else if(postType == 'update') {
                     cache.update('[' + xhr.responseText + ']');
@@ -437,7 +439,7 @@ var Twippera = {
                 Twippera.autoReflesh();
             } else {
                 $("sar").checked = false;
-                Twippera.post('friends_timeline');
+                Twippera.post('home_timeline');
             }
             $('timeout').value = this.timeout / 1000;
             $('cache').value = this.limit;
@@ -492,7 +494,7 @@ var Twippera = {
                         'style="background-image:url(\'#{star}\')" ',
                         'onclick="Twippera.favorite.toggle(this, #{id})">',
                     '</span>',
-                    '<sapn class="retweet"',
+                    '<span class="retweet" ',
                         'onclick="Twippera.retweet(#{id})">',
                         'RT',
                     '</span>',

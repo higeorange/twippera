@@ -301,8 +301,9 @@ div#front ul#updateList li span.meta span.fav {
     cursor: pointer;
 }
 div#front ul#updateList li span.meta span.retweet {
-    color: #06f;
-    cursor: pointer;
+	color: #06f;
+	text-decoration: underline;
+	cursor: pointer;
 }
 div#front ul#updateList li span span.protected {
     width: 16px;
