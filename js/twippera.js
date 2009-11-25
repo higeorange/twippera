@@ -10,7 +10,7 @@ var Twippera = {
     timeout  : 30000,
     fcount   : 0,
     msgState : "recent",
-    itemfocus: null
+    reply_to : null
 }
     Twippera.initEvent = function() {
         var self = this;
@@ -175,6 +175,13 @@ var Twippera = {
                 break;
         }
     };
+    Twippera.toggleReload = function() {
+        if(hasClass($('reload'), 'loading')) {
+            removeClass($('reload'), 'loading');
+        } else {
+            addClass($('reload'), 'loading');
+        }
+    }
 
     Twippera.flipWidget = function(to) {
         switch (to) {
@@ -213,13 +220,17 @@ var Twippera = {
         var status = "";
         var query = null;
         var type;
-        addClass($('reload'), 'loading');
+        Twippera.toggleReload();
 
         if(postType == 'update') {
             type = "POST"
             status = $('status').value;
             if(status == "") return;
             query = 'status=' + encodeURIComponent(status) + '&source=Twippera';
+            if(this.reply_to != null) {
+                query += '&in_reply_to_status_id=' + this.reply_to;
+                this.reply_to = null;
+            }
             $('status').value = "";
             if(self.postMsgs[0]) {
                 if(!self.postMsgs[0].post) {
@@ -251,7 +262,7 @@ var Twippera = {
                 if(self.msgState == "recent") {
                     cache.parse();
                 }
-                removeClass($('reload'), 'loading');
+                Twippera.toggleReload();
                 status = $('status').value;
                 var rest   = 140 - status.length;
                 $('count').innerHTML = (rest >= 0) ? rest : 0;
@@ -263,12 +274,12 @@ var Twippera = {
                 timeout: config.timeout,
                 timeoutHandler: function(url) {
                     self.showPopup(config.langs.to);
-                    removeClass($('reload'), 'loading');
+                    Twippera.toggleReload();
                     log(url, "Timeout");
                 },
                 errorHandler: function(url, st, txt) {
                     log(url + ": " + st + ": " + txt);
-                    removeClass($('reload'), 'loading');
+                    Twippera.toggleReload();
                 }
             }
         );
@@ -440,7 +451,7 @@ var Twippera = {
                 '<img src="#{img}" ',
                      'alt="#{usr}" ',
                      'style="width:16px;height:16px" ',
-                     'onclick="Twippera.replies.reply(\'#{usr}\')">',
+                     'onclick="Twippera.replies.reply(\'#{usr}\', \'#{id}\')">',
                 '<span class="user" ',
                       'onclick="widget.openURL(\'http://twitter.com/#{usr}\')">#{usr}',
                 '</span>',
@@ -454,6 +465,7 @@ var Twippera = {
                             '#{time}',
                         '</a>',
                     '</span>',
+                    '#{in_reply_to}',
                     '#{prot}',
                     '#{trash}',
                     '<span class="fav" ',
@@ -461,7 +473,7 @@ var Twippera = {
                         'onclick="Twippera.favorite.toggle(this, #{id})">',
                     '</span>',
                 '</span>',
-            '</li>'].join('');;
+            '</li>'].join('');
     };
 
     Twippera.msg.prototype.update = function(txt, type) {
@@ -500,7 +512,9 @@ var Twippera = {
                         time   : json[i].created_at,
                         class  : cl,
                         prot   : json[i].user.protected,
-                        cached : 0
+                        cached : 0,
+                        reply_to_status_id   : json[i].in_reply_to_status_id,
+                        reply_to_screen_name : json[i].in_reply_to_screen_name
                     });
                 }
             }
@@ -568,6 +582,14 @@ var Twippera = {
             if(usr['prot']) {
                 prot = '<span class="protected"></span>'
             }
+            var in_reply_to = "";
+            if (usr['reply_to_status_id']) {
+                in_reply_to = '<span class="in_reply_to">' +
+                                  '<a href="http://twitter.com/' + usr['reply_to_screen_name'] + '/statuses/' + usr['reply_to_status_id'] + '">' +
+                                      'in reply to ' + usr['reply_to_screen_name'] +
+                                  '</a>' +
+                              '</span>';
+            }
             rep = {
                 id: usr.id,
                 usr: usr.usr,
@@ -579,7 +601,8 @@ var Twippera = {
                 prot: prot,
                 star: Twippera.favorite.isFavorite(usr.id)? 
                     "images/icon_star_full.gif":
-                    "images/icon_star_empty.gif"
+                    "images/icon_star_empty.gif",
+                in_reply_to: in_reply_to
             };
 
             li = this.template.replace(/#\{(\w+)\}/g, function($0, $1) {
@@ -629,7 +652,8 @@ var Twippera = {
                 }
             });
     }
-    Twippera.replies.reply = function(user) {
+    Twippera.replies.reply = function(user, id) {
+        Twippera.reply_to = id;
         var status   = $('status');
         var msg = status.value;
             status.value = '@' + user + ' ' + msg;
@@ -715,8 +739,7 @@ var Twippera = {
         '<li id="#{id}" class="#{cl}">',
             '<img src="#{img}" ',
                  'alt="#{usr}" ',
-                 'style="width:16px;height:16px" ',
-                 'onclick="Twippera.replies.reply(\'#{usr}\')">',
+                 'style="width:16px;height:16px">',
             '<span class="user" ',
                   'onclick="widget.openURL(\'http://twitter.com/#{usr}\')">#{usr}',
             '</span>',
@@ -744,7 +767,6 @@ var Twippera = {
         Ajax.request(
             "http://twitter.com/direct_messages.json",
             function(xhr) {
-            log(xhr.responseText)
                 self.update(xhr.responseText, 'dms');
                 self.parse();
             }, {

@@ -289,7 +289,8 @@ div#front ul#updateList li span.meta span{
     margin: 0 1px;
 }
 
-div#front ul#updateList li span.meta span.post_time {
+div#front ul#updateList li span.meta span.post_time,
+div#front ul#updateList li span.meta span.in_reply_to {
     font-size : 80%;
     color : #3b6fa4;
 }
