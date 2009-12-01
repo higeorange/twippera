@@ -82,8 +82,7 @@ var Tools = {};
             postTime = new Date(postTime.getTime() + 9 * 60 * 60 * 1000);
         return postTime.getHours() + ":" + postTime.getMinutes();
     };
-    Tools.createTime = function(time, locale) {
-		var langs = Twippera.config.langs;
+    Tools.createTime = function(time) {
         var t = time.split(' ');
         var Month = {
             'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
@@ -100,17 +99,17 @@ var Tools = {};
         var nowTime = new Date().getTime();
         var diffMins = Math.round((nowTime - postTime) / 60 / 1000);
         if(diffMins < 1) {
-            return langs.less;
+            return "less than a minute ago";
         } else if(diffMins == 1) {
-            return diffMins + langs.minago;
+            return diffMins + " minute ago";
         } else if(diffMins > 1 && diffMins < 60) {
-            return diffMins + langs.minsago;
+            return diffMins + " minutes ago";
         } else if(diffMins >= 60 && diffMins < 60 * 24) {
             var hours = Math.floor(diffMins / 60);
-            return (hours == 1) ? hours + langs.hrago : hours + langs.hrsago;
+            return (hours == 1) ? hours + " hour ago" : hours + " hours aog";
         } else {
             var days = Math.floor(diffMins / 60 / 24);
-            return (days == 1) ? days + langs.dayago : days + langs.daysago;
+            return (days == 1) ? days + " days ago" : days + " days ago";
         }
     };
     Tools.createHTML = function(text) {

@@ -15,11 +15,6 @@ var Twippera = {
     Twippera.initEvent = function() {
         var self = this;
         var config = self.config;
-        var locale = config.locale;
-
-//        $('header').addEventListener('dblclick', function() {
-//            self.foldMsgList();
-//        }, false);
 
         $('reload').addEventListener('click', function(e){
             if(config.ear) {
@@ -74,22 +69,7 @@ var Twippera = {
                     "&nbsp;",
                     config.langs.design,
                     ': tobetchi (<a href="http://twitter.com/tobetchi">Twitter</a>)'
-                ].join(''),
-                "",
-                config.langs.trans,
-                '&nbsp;Español: Eduardo Escáre',
-                '&nbsp;Magyor: Tamás Zahol',
-                '&nbsp;Lietuviškai: Gediminas Ryženinas',
-                '&nbsp;Русский: Andrew Ustimov, anton, neonmailbox',
-                '&nbsp;Italiano: Alberto Raffaele Casale', 
-                '&nbsp;Português: Eduardo Medeiros Schut',
-                '&nbsp;简体中文: Jimmy Lvo',
-                '&nbsp;Français: Yoann007',
-                '&nbsp;Deutsch: Andrew Kupfer',
-				'&nbsp;Ймення на рідній мові: Victoria Herukh',
-				'&nbsp;Latviešu: Ivars Šaudinis',
-				'&nbsp;Norsk bokmål: Brede Kaasa',
-				'&nbsp;Português BR Carlos Gomes'
+                ].join('')
             );
         }, false);
 
@@ -213,9 +193,7 @@ var Twippera = {
         var self = this;
             self.hidePopup();
         var config = Twippera.config;
-        var locale = config.locale;
         var cache = self.cache;
-
 
         var status = "";
         var query = null;
@@ -347,9 +325,6 @@ var Twippera = {
     Twippera.config = {
         user    : "",
         pass    : "",
-        locale  : "en",
-		langs   : {},
-        lng     : null,
         time    : 60000,
         limit   : 200
     };
@@ -377,19 +352,12 @@ var Twippera = {
         var limit = parseInt($('cache').value);
         Widget.setValue(limit, 'limit');
 
-        var localeSel = $("locale");
-        var locale = localeSel.value;
-        Widget.setValue(locale, "locale");
-
         this.load();
         Twippera.flipWidget('front');
     };
     Twippera.config.load = function() {
         Widget.setValue('front', 'state');
         Widget.setValue('show', 'list');
-        this.locale = Widget.getValue("locale") || "en";
-        $('locale').selectedIndex = localeIndex[this.locale];
-        this.setLocale(this.locale);
         this.user = Widget.getValue('user');
         this.pass = Widget.getValue('pass');
         this.time = Widget.getValue('time');
@@ -425,21 +393,6 @@ var Twippera = {
             Twippera.flipWidget("back");
         }
     };
-    Twippera.config.setLocale = function(lng) {
-		this.script= document.createElement('script');
-		this.script.type = 'text/javascript';
-		this.script.src = './js/lng/' + lng + '.js';
-		document.body.appendChild(this.script);
-    };
-	Twippera.config.loadLocaleFile = function(langs) {
-	    for(var i in langs) {
-			if($(i)) {
-				$(i).innerHTML = langs[i];
-			}
-			this.langs[i] = langs[i];
-        }
-		this.script.parentNode.removeChild(this.script);
-	};
 
     Twippera.msg = function() {
         this.list = [];
@@ -596,7 +549,7 @@ var Twippera = {
                 cl: (i % 2 != 0) ? "zebra " + (usr.class || "") : (usr.class || ""),
                 img: usr.img,
                 msg: tmpMsg,
-                time: Tools.createTime(usr.time, config.locale),
+                time: Tools.createTime(usr.time),
                 trash: trash,
                 prot: prot,
                 star: Twippera.favorite.isFavorite(usr.id)? 
