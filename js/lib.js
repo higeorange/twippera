@@ -65,31 +65,27 @@ var log = function() {
 }
 
 var Tools = {};
+    Tools.months = {
+        'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
+        'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
+    };
     Tools.absoluteTime = function(time) {
         var t = time.split(' ');
-        var Month = {
-            'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
-            'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
-        };
         var y = parseInt(t[5]);
-        var m = Month[t[1]];
+        var m = this.months[t[1]];
         var d = parseInt(t[2]);
         var time = t[3].split(':')
         var H = parseInt(time[0]);
         var M = parseInt(time[1]);
         var S = parseInt(time[2]);
-        var postTime = new Date(y, m, d, H, M, S);
-            postTime = new Date(postTime.getTime() + 9 * 60 * 60 * 1000);
-        return postTime.getHours() + ":" + postTime.getMinutes();
+        var datetime = new Date(y, m, d, H, M, S);
+            datetime = new Date(datetime.getTime() + 9 * 60 * 60 * 1000);
+        return datetime.getHours() + ":" + datetime.getMinutes() + ":" + datetime.getSeconds();
     };
-    Tools.createTime = function(time) {
+    Tools.relativeTime = function(time) {
         var t = time.split(' ');
-        var Month = {
-            'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
-            'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
-        };
         var y = parseInt(t[5]);
-        var m = Month[t[1]];
+        var m = this.months[t[1]];
         var d = parseInt(t[2]);
         var time = t[3].split(':')
         var H = parseInt(time[0]);
@@ -130,9 +126,9 @@ var Tools = {};
             }
         );
         return text.replace(/\B@([_a-z0-9]+)/ig, function(reply) {
-			return reply.charAt(0) + '<a href="http://twitter.com/' + reply.substring(1) + '">' + reply.substring(1) + '</a>';
-		}).replace(/\B#([_a-z0-9+]+)/ig, function(search) {
-			return '<a href="http://twitter.com/#search?q=%23' + search.substring(1) + '">' + search.charAt(0) + search.substring(1) + '</a>';
+            return reply.charAt(0) + '<a href="http://twitter.com/' + reply.substring(1) + '">' + reply.substring(1) + '</a>';
+            }).replace(/\B#([_a-z0-9+]+)/ig, function(search) {
+                return '<a href="http://twitter.com/#search?q=%23' + search.substring(1) + '">' + search.charAt(0) + search.substring(1) + '</a>';
         });
     };
     // Tinyurl 展開: 1つに付き about 600ms
@@ -178,14 +174,12 @@ var Widget = {}
             switch(type) {
                 case 'Number':
                     return parseInt(value);
-                    break;
                 case 'Array':
                     return value.split(',');
-                    break;
-				case 'Boolean':
-					return value == 'true' ? true : false;
+                case 'Boolean':
+                    return value == 'true' ? true : false;
                 default:
-                    break;
+                    return null;
             }
         } else {
             return value;
@@ -263,8 +257,8 @@ function setCaretPosition(ctrl, pos) {
 //
 
 var DecodeURI=function(str){
-	return str.replace(/%(E(0%[AB]|[1-CEF]%[89AB]|D%[89])[0-9A-F]|C[2-9A-F]|D[0-9A-F])%[89AB][0-9A-F]|%[0-7][0-9A-F]/ig,function(s){
-		var c=parseInt(s.substring(1),16);
-		return String.fromCharCode(c<128?c:c<224?(c&31)<<6|parseInt(s.substring(4),16)&63:((c&15)<<6|parseInt(s.substring(4),16)&63)<<6|parseInt(s.substring(7),16)&63)
-	})
+    return str.replace(/%(E(0%[AB]|[1-CEF]%[89AB]|D%[89])[0-9A-F]|C[2-9A-F]|D[0-9A-F])%[89AB][0-9A-F]|%[0-7][0-9A-F]/ig,function(s){
+        var c=parseInt(s.substring(1),16);
+        return String.fromCharCode(c<128?c:c<224?(c&31)<<6|parseInt(s.substring(4),16)&63:((c&15)<<6|parseInt(s.substring(4),16)&63)<<6|parseInt(s.substring(7),16)&63)
+    });
 };

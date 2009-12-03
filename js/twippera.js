@@ -527,7 +527,7 @@ var Twippera = {
                 cl: (i % 2 != 0) ? "zebra " + (usr.class || "") : (usr.class || ""),
                 img: usr.img,
                 msg: tmpMsg,
-                time: Tools.createTime(usr.time),
+                time: Tools.absoluteTime(usr.time),
                 trash: trash,
                 prot: prot,
                 star: Twippera.favorite.isFavorite(usr.id)? 
