@@ -49,11 +49,10 @@ var Twippera = {
 
         $('about').addEventListener('click', function() {
             self.showPopup(
-                config.langs.abt,
+                "About",
                 [
                     "&nbsp;",
-                    config.langs.version,
-                    ": ",
+                    "Version:",
                     self.version,
                     ' (<a href="http://widgets.opera.com/widget/6522">',
                         config.langs.download,
@@ -61,14 +60,10 @@ var Twippera = {
                 ].join(""),
                 [
                     "&nbsp;",
-                    config.langs.author,
-                    ': <a href="http://higeorange.com/">Higeorange</a> ',
-                    '(<a href="http://twitter.com/higeorange">Twitter</a>)'
-                ].join(''),
-                [
+                    'Author: <a href="http://higeorange.com/">Higeorange</a> ',
+                    '(<a href="http://twitter.com/higeorange">Twitter</a>)',
                     "&nbsp;",
-                    config.langs.design,
-                    ': tobetchi (<a href="http://twitter.com/tobetchi">Twitter</a>)'
+                    'Design: tobetchi (<a href="http://twitter.com/tobetchi">Twitter</a>)'
                 ].join('')
             );
         }, false);

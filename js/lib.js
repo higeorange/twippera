@@ -51,8 +51,10 @@ var Ajax = {};
     }
 
 var preLoadImage = function(l) {
-    for(var i = 0, len = l.length; i < len; i++) {
+    var i = 0;
+    while(l[i]) {
         new Image().src = l[i];
+        i++;
     }
 }
 
@@ -74,13 +76,17 @@ var Tools = {};
         var y = parseInt(t[5]);
         var m = this.months[t[1]];
         var d = parseInt(t[2]);
-        var time = t[3].split(':')
+        var time = t[3].split(':');
         var H = parseInt(time[0]);
         var M = parseInt(time[1]);
         var S = parseInt(time[2]);
+        var h, m;
         var datetime = new Date(y, m, d, H, M, S);
             datetime = new Date(datetime.getTime() + 9 * 60 * 60 * 1000);
-        return datetime.getHours() + ":" + datetime.getMinutes() + ":" + datetime.getSeconds();
+        return datetime.getMonth() + '/' + datetime.getDay() + ' ' +
+            ((h = datetime.getHours()) < 10 ? '0' + h: h) + 
+            ":" +
+            ((m = datetime.getMinutes()) < 10 ? '0' + m: m);
     };
     Tools.relativeTime = function(time) {
         var t = time.split(' ');
