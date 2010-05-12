@@ -71,13 +71,13 @@ var Tools = {};
             'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
             'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
         };
-        var y = parseInt(t[5]);
+        var y = parseInt(t[5], 10);
         var m = Month[t[1]];
-        var d = parseInt(t[2]);
+        var d = parseInt(t[2], 10);
         var time = t[3].split(':')
-        var H = parseInt(time[0]);
-        var M = parseInt(time[1]);
-        var S = parseInt(time[2]);
+        var H = parseInt(time[0], 10);
+        var M = parseInt(time[1], 10);
+        var S = parseInt(time[2], 10);
         var postTime = new Date(y, m, d, H, M, S);
             postTime = new Date(postTime.getTime() + 9 * 60 * 60 * 1000);
         return postTime.getHours() + ":" + postTime.getMinutes();
